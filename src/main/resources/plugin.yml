@@ -1,0 +1,32 @@
+name: VanillinSMPCore
+version: '${project.version}'
+main: me.applesfruit.vanillinsmp.VanillinSMP
+api-version: 1.19
+authors: [ applesfruit ]
+depend:
+  - ProtocolLib
+commands:
+  message:
+    aliases: ["msg", "w"]
+    description: Send someone a message.
+  reply:
+    aliases: ["r"]
+    description: Reply to the person you have had the most recent conversation with.
+  afk:
+    description: Away from keyboard.
+  mutechat:
+    description: THE SERVER HAVE BEEN SILENCED!
+  clearchat:
+    description: POOF! CHAT HAS DISAPPEARED.
+  ban:
+    description: haha, YOU HAVE BEEN PERMANENTLY BANNED FROM VANILLINSMP. GOOD RIDDANCE
+  rank:
+    description: woah! i am admin now?
+  unban:
+    description: AAAAAHHHHHHHHHHHHHH im tired of making these descriptions. this just unbans people
+  about:
+    description: about ur mom
+  rules:
+    description: dont breka them, or else....
+  tempban:
+    description: WOOOOOOOOOOOOOOOOOOOOOOOO TEMPBAN WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO THIS IS GOING TO BE HELL.
