@@ -21,8 +21,7 @@ public class AFKHandler implements Listener {
 
     VanillinSMP plugin;
 
-    public AFKHandler(VanillinSMP slnsmp)
-    {
+    public AFKHandler(VanillinSMP slnsmp) {
         this.plugin = slnsmp;
     }
 
@@ -30,14 +29,16 @@ public class AFKHandler implements Listener {
     HashMap<Player, Integer> idle = new HashMap<>();
     HashMap<Player, Location> prevLocations = new HashMap<>();
 
-    public void setAFK(Player player)
-    {
+    public void setAFK(Player player) {
         afkList.add(player);
         Bukkit.broadcastMessage(TC.c("&8[&3!&8] &b" + player.getDisplayName() + " &3is now AFK."));
         player.sendMessage(TC.c("&8[&3!&8] &3You are now AFK."));
     }
 
-    public boolean getAFK(Player player) { if (afkList.contains(player)) return true; else return false; }
+    public boolean getAFK(Player player) {
+        if (afkList.contains(player)) return true;
+        else return false;
+    }
 
     public void removeAFK(Player player) {
         if (afkList.contains(player)) {
@@ -49,77 +50,64 @@ public class AFKHandler implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e)
-    {
-        if (afkList.contains(e.getPlayer()))
-        {
+    public void onChat(AsyncPlayerChatEvent e) {
+        if (afkList.contains(e.getPlayer())) {
             removeAFK(e.getPlayer());
         }
     }
 
     @EventHandler
-    public void onBreak(BlockBreakEvent e)
-    {
-        if (afkList.contains(e.getPlayer()))
-        {
+    public void onBreak(BlockBreakEvent e) {
+        if (afkList.contains(e.getPlayer())) {
             removeAFK(e.getPlayer());
         }
     }
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent e)
-    {
-        if (afkList.contains(e.getPlayer()))
-        {
+    public void onPlace(BlockPlaceEvent e) {
+        if (afkList.contains(e.getPlayer())) {
             removeAFK(e.getPlayer());
         }
     }
 
     @EventHandler
-    public void onCameraMove(PlayerMoveEvent e)
-    {
-        if (afkList.contains(e.getPlayer()))
-        {
+    public void onCameraMove(PlayerMoveEvent e) {
+        if (afkList.contains(e.getPlayer())) {
             removeAFK(e.getPlayer());
         }
     }
 
 
-
-    public void loop()
-    {
-        new BukkitRunnable()
-        {
+    public void loop() {
+        // runs every 20 ticks/1 sec
+        new BukkitRunnable() {
 
             @Override
             public void run() {
-                for (Player p : Bukkit.getOnlinePlayers())
-                {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    // if person is vanished then don't continue
                     if (isVanished(p))
                         return;
+                    // previous location to check if they have moved, if yes then return, otherwise continue
+                    // puts player into afk state after 5 minutes/300 seconds of not moving or chatting
                     Location prev = prevLocations.get(p);
 
-                    if (prev != null)
-                    {
+                    if (p.isInWater()) return;
+                    if (prev != null) {
                         double distance = prev.distance(p.getLocation());
-                        if (distance == 0.0)
-                        {
+                        if (distance == 0.0) {
                             if (idle.containsKey(p))
                                 idle.put(p, idle.get(p) + 1);
                             else
                                 idle.put(p, 1);
 
-                            if (idle.containsKey(p))
-                            {
+                            if (idle.containsKey(p)) {
                                 if (idle.get(p).intValue() >= 300)
                                     if (!afkList.contains(p))
                                         setAFK(p);
                             }
-                        }
-                        else
-                        {
-                            if (getAFK(p))
-                            {
+                        } else {
+                            if (getAFK(p)) {
                                 removeAFK(p);
                             }
                         }

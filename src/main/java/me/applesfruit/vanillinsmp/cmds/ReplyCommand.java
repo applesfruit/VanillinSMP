@@ -13,28 +13,24 @@ public class ReplyCommand implements CommandExecutor {
 
     VanillinSMP plugin;
 
-    public ReplyCommand(VanillinSMP slnsmp)
-    {
+    public ReplyCommand(VanillinSMP slnsmp) {
         plugin = slnsmp;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player && args.length > 0)
-        {
+        if (sender instanceof Player && args.length > 0) {
             Player messager = (Player) sender;
             if (plugin.mManager.getReplyTarget(messager) != null) {
 
-                if (!plugin.mManager.getReplyTarget(messager).isOnline() || !plugin.mManager.getReplyTarget(messager).isValid() || isVanished(plugin.mManager.getReplyTarget(messager)))
-                {
+                if (!plugin.mManager.getReplyTarget(messager).isOnline() || !plugin.mManager.getReplyTarget(messager).isValid() || isVanished(plugin.mManager.getReplyTarget(messager))) {
                     messager.sendMessage(TC.c("&8[&3!&8] &cThat player isn't online or doesn't exist!"));
                     return false;
                 }
 
                 String message = "";
-                for (int i = 0; i < args.length; i++)
-                {
+                for (int i = 0; i < args.length; i++) {
                     message += " " + args[i];
                 }
                 if (message.isEmpty() || message.isBlank()) {
@@ -46,9 +42,7 @@ public class ReplyCommand implements CommandExecutor {
                 messager.sendMessage(TC.c("&8[&3!&8] &3To &b" + plugin.mManager.getReplyTarget(messager).getDisplayName() + " &8➤ &7" + message));
                 plugin.mManager.getReplyTarget(messager).sendMessage(TC.c("&8[&3!&8] &3From &b" + messager.getDisplayName() + " &8➤ &7" + message));
                 plugin.mManager.getReplyTarget(messager).playSound(plugin.mManager.getReplyTarget(messager).getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.2F);
-            }
-            else
-            {
+            } else {
                 messager.sendMessage(TC.c("&8[&3!&8] &cYou aren't in a conversation with anyone!"));
             }
 

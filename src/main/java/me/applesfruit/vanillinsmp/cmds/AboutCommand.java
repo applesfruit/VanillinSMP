@@ -1,10 +1,12 @@
 package me.applesfruit.vanillinsmp.cmds;
 
+import me.applesfruit.vanillinsmp.handlers.PlayerDataHandler;
 import me.applesfruit.vanillinsmp.util.PlayerData;
 import me.applesfruit.vanillinsmp.util.TC;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class AboutCommand implements CommandExecutor {
 
@@ -19,9 +21,7 @@ public class AboutCommand implements CommandExecutor {
             sender.sendMessage(TC.c("&3We hope you enjoy playing on VanillinSMP"));
             sender.sendMessage(TC.c("&3Type /about ranks to view how our rank system works."));
             sender.sendMessage(TC.c(" "));
-        }
-        else if (args[0].equalsIgnoreCase("ranks"))
-        {
+        } else if (args[0].equalsIgnoreCase("ranks")) {
             sender.sendMessage(TC.c(" "));
             sender.sendMessage(TC.c(PlayerData.Ranks.MEMBER.prefix + "&7Player &8- &3The default rank, when you join the server, you get this rank."));
             sender.sendMessage(TC.c(PlayerData.Ranks.KNOWN_MEMBER.prefix + "&6Player &8- &3The Known Member rank, when you've consistently played for atleast a week, you get this."));
@@ -31,14 +31,28 @@ public class AboutCommand implements CommandExecutor {
             sender.sendMessage(TC.c(PlayerData.Ranks.ADMIN.prefix + "&3Player &8- &3The Admin rank, you can't get this. We manage the server."));
             sender.sendMessage(TC.c("&3Type /about punishments to view how our punishment system works."));
             sender.sendMessage(TC.c(" "));
-        }
-        else if (args[0].equalsIgnoreCase("punishments"))
-        {
+        } else if (args[0].equalsIgnoreCase("punishments")) {
             sender.sendMessage(TC.c(" "));
             sender.sendMessage(TC.c("&3When you break our rules, we are pretty tolerant, until we're not."));
             sender.sendMessage(TC.c("&3Most punishments will be permanent bans, that's only if you're a bad person, if not then you don't have to worry about anything."));
             sender.sendMessage(TC.c("&3View /rules on a in-depth explanation on what rules to follow."));
             sender.sendMessage(TC.c(" "));
+        } else if (args[0].equalsIgnoreCase("staff")) {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                if (PlayerDataHandler.findData(p).getRank().equals(PlayerData.Ranks.ADMIN) || PlayerDataHandler.findData(p).getRank().equals(PlayerData.Ranks.STAFF)) {
+                    sender.sendMessage(TC.c(" "));
+                    sender.sendMessage(TC.c("&3/mutechat - USE ONLY IN SERIOUS SITUATIONS, mass spam, mass slurs, etc."));
+                    sender.sendMessage(TC.c("&3/clearchat - USE ONLY WHEN RACISM/SLURS/SOMETHING BAD is typed"));
+                    sender.sendMessage(TC.c("&3/mute <player> - Perm mute."));
+                    sender.sendMessage(TC.c("&3/ban <player> <reason> - Perm ban."));
+                    sender.sendMessage(TC.c("&3/unban <player> - Unban a player."));
+                    sender.sendMessage(TC.c("&3/warn <player> - Warn for using slurs, major griefing, racism, etc."));
+                    sender.sendMessage(TC.c("&3/warns <player> - View warns."));
+                    sender.sendMessage(TC.c("&33rd warn is 7d mute, 5th warn is perm mute, 7th warn is 30d ban, 10th warn is perm ban."));
+                    sender.sendMessage(TC.c(" "));
+                }
+            }
         }
 
         return true;

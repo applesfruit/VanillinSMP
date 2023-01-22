@@ -15,17 +15,14 @@ public class RankCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args.length >= 2 && (!(sender instanceof Player) || (PlayerDataHandler.findData(((Player) sender).getPlayer())).getRank() == PlayerData.Ranks.ADMIN || PlayerDataHandler.findData(((Player) sender).getPlayer()).getRank() == PlayerData.Ranks.STAFF))
-        {
-            if (!Bukkit.getPlayer(args[0]).isOnline() || !Bukkit.getPlayer(args[0]).isValid() || Bukkit.getPlayer(args[0]) == null)
-            {
+        if (args.length >= 2 && (!(sender instanceof Player) || (PlayerDataHandler.findData(((Player) sender).getPlayer())).getRank() == PlayerData.Ranks.ADMIN || PlayerDataHandler.findData(((Player) sender).getPlayer()).getRank() == PlayerData.Ranks.STAFF)) {
+            if (!Bukkit.getPlayer(args[0]).isOnline() || !Bukkit.getPlayer(args[0]).isValid() || Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(TC.c("&8[&3!&8] &cThat player isn't online or doesn't exist!"));
                 return false;
             }
             Player p = Bukkit.getPlayer(args[0]);
 
-            switch(args[1].toLowerCase())
-            {
+            switch (args[1].toLowerCase()) {
                 case "member":
                     PlayerDataHandler.setRank(p, PlayerData.Ranks.MEMBER);
                     break;

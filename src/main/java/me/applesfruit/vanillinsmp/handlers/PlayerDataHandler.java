@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -24,23 +25,21 @@ public class PlayerDataHandler {
 
     private static HashMap<UUID, PermissionAttachment> perms = new HashMap<UUID, PermissionAttachment>();
 
-    public static void gibPlugin(VanillinSMP s)
-    {
+    public static void gibPlugin(VanillinSMP s) {
         slnsmp = s;
         folder = new File(slnsmp.getDataFolder() + "\\playerdata\\");
         folder.mkdirs();
     }
 
-    public static void create(Player p)
-    {
+    public static void create(Player p) {
         config = new File(folder, p.getUniqueId() + ".json");
         if (!config.exists()) {
-            PlayerData playerData = new PlayerData(PlayerData.Ranks.MEMBER, ChatColor.GRAY, false, 0);
+            PlayerData playerData = new PlayerData(PlayerData.Ranks.MEMBER, ChatColor.GRAY, false, 0, new ArrayList<>() {
+            });
             dataHashMap.put(p, playerData);
             save(p);
             loadData(p);
-        }
-        else
+        } else
             loadData(p);
     }
 
@@ -60,29 +59,23 @@ public class PlayerDataHandler {
         }
     }
 
-    public static void removeArrayListPlayerData(Player p)
-    {
+    public static void removeArrayListPlayerData(Player p) {
         dataHashMap.remove(p);
         perms.remove(p.getUniqueId());
     }
 
-    public static PlayerData findData(Player p)
-    {
-        if (dataHashMap.containsKey(p))
-        {
+    public static PlayerData findData(Player p) {
+        if (dataHashMap.containsKey(p)) {
             return dataHashMap.get(p);
         }
         return null;
     }
 
-    public static void save(Player p)
-    {
-        try
-        {
+    public static void save(Player p) {
+        try {
             Gson gson = new Gson();
             File file = new File(folder, p.getUniqueId() + ".json");
-            if (!file.exists() || !file.getParentFile().exists())
-            {
+            if (!file.exists() || !file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
@@ -90,40 +83,57 @@ public class PlayerDataHandler {
             gson.toJson(findData(p), writer);
             writer.flush();
             writer.close();
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void banPlayer(Player p, String reason)
-    {
+    public static void banPlayer(Player p) {
         PlayerData old = dataHashMap.get(p);
         old.setBanned(true);
         dataHashMap.put(p, old);
         save(p);
-        p.kickPlayer(TC.c("&cYou have been permanently banned from VanillinSMP\nReason: &c" + reason));
+        p.kickPlayer(TC.c("&cYou have been permanently banned from VanillinSMP"));
     }
 
-    public static void unbanPlayer(Player p)
-    {
+    public static void unbanPlayer(Player p) {
         PlayerData old = dataHashMap.get(p);
         old.setBanned(false);
         dataHashMap.put(p, old);
         save(p);
     }
 
-    public static void mutePlayer(Player p, long minutes)
-    {
+    public static void mutePlayer(Player p, long minutes) {
         PlayerData old = dataHashMap.get(p);
         old.setMuteTime(minutes);
         dataHashMap.put(p, old);
         save(p);
     }
 
-    public static void setRank(Player p, PlayerData.Ranks rank)
+    public static void unmutePlayer(Player p) {
+        PlayerData old = dataHashMap.get(p);
+        old.setMuteTime(0);
+        dataHashMap.put(p, old);
+        save(p);
+    }
+
+    public static void warnPlayer(Player p, String reason) {
+        PlayerData old = dataHashMap.get(p);
+        old.addWarns(reason);
+        dataHashMap.put(p, old);
+        save(p);
+    }
+
+    public static void setChatColor(Player p, ChatColor chatColor)
     {
+        PlayerData old = dataHashMap.get(p);
+        old.setChatColor(chatColor);
+        dataHashMap.put(p, old);
+        save(p);
+    }
+
+
+    public static void setRank(Player p, PlayerData.Ranks rank) {
         PlayerData old = dataHashMap.get(p);
         PlayerData.Ranks prevRank = old.getRank();
         old.setRank(rank);

@@ -3,8 +3,6 @@ version: '${project.version}'
 main: me.applesfruit.vanillinsmp.VanillinSMP
 api-version: 1.19
 authors: [ applesfruit ]
-depend:
-  - ProtocolLib
 commands:
   message:
     aliases: ["msg", "w"]
@@ -28,5 +26,13 @@ commands:
     description: about ur mom
   rules:
     description: dont breka them, or else....
-  tempban:
-    description: WOOOOOOOOOOOOOOOOOOOOOOOO TEMPBAN WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO THIS IS GOING TO BE HELL.
+  warn:
+    description: oops, what have you done?
+  warns:
+    description: how many warns do you have? hmmm??????? 3RD WARN? YOU GET MUTE!!!
+  donate:
+    description: please support the server ty
+  mute:
+    description: you have been silenced
+  chatcolor:
+    description: WOAH CHAT COLORS?????

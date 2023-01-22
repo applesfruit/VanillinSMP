@@ -10,15 +10,13 @@ public class AFKCommand implements CommandExecutor {
 
     VanillinSMP plugin;
 
-    public AFKCommand(VanillinSMP slnsmp)
-    {
+    public AFKCommand(VanillinSMP slnsmp) {
         this.plugin = slnsmp;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player)
-        {
+        if (sender instanceof Player) {
             if (plugin.afk.getAFK(((Player) sender).getPlayer()))
                 plugin.afk.removeAFK(((Player) sender).getPlayer());
             else

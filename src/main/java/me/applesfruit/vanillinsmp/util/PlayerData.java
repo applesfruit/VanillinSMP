@@ -2,20 +2,23 @@ package me.applesfruit.vanillinsmp.util;
 
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerData {
 
     private ChatColor chatColor;
     private Ranks rank;
     private boolean banned;
     private long muteTime;
-    private int warns;
+    private ArrayList<String> warns;
 
-    public PlayerData(Ranks rank, ChatColor chatColor, boolean banned, long muteTime, int warns)
-    {
+    public PlayerData(Ranks rank, ChatColor chatColor, boolean banned, long muteTime, ArrayList<String> warns) {
         this.rank = rank;
         this.chatColor = chatColor;
         this.banned = banned;
         this.muteTime = muteTime;
+        this.warns = warns;
     }
 
     public ChatColor getChatColor() {
@@ -50,11 +53,19 @@ public class PlayerData {
         this.muteTime = muteTime;
     }
 
+    public List<String> getWarns() {
+        return warns;
+    }
 
+    public void setWarns(ArrayList<String> warns) {
+        this.warns = warns;
+    }
 
+    public void addWarns(String warn) {
+        this.warns.add(warn);
+    }
 
-    public enum Ranks
-    {
+    public enum Ranks {
         MEMBER("group.member", TC.c("&7[M] &7")),
         KNOWN_MEMBER("group.known_member", TC.c("&7[&6K&7] &6")),
         TRUSTED("group.trusted", TC.c("&7[&eT&7] &e")),
@@ -65,8 +76,7 @@ public class PlayerData {
         public String permission;
         public String prefix;
 
-        Ranks(String permission, String prefix)
-        {
+        Ranks(String permission, String prefix) {
             this.permission = permission;
             this.prefix = prefix;
         }

@@ -14,28 +14,24 @@ public class MessageCommand implements CommandExecutor {
 
     VanillinSMP plugin;
 
-    public MessageCommand(VanillinSMP slnsmp)
-    {
+    public MessageCommand(VanillinSMP slnsmp) {
         plugin = slnsmp;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player && args.length > 0)
-        {
+        if (sender instanceof Player && args.length > 0) {
             Player messager = (Player) sender;
             Player receiver = Bukkit.getPlayer(args[0]);
-            if (!receiver.isOnline() || !receiver.isValid() || isVanished(receiver) || receiver == null)
-            {
+            if (!receiver.isOnline() || !receiver.isValid() || isVanished(receiver) || receiver == null) {
                 messager.sendMessage(TC.c("&8[&3!&8] &cThat player isn't online or doesn't exist!"));
                 return false;
             }
             plugin.mManager.setReplyTarget(messager, receiver);
             args[0] = "";
             String message = "";
-            for (int i = 0; i < args.length; i++)
-            {
+            for (int i = 0; i < args.length; i++) {
                 message += " " + args[i];
             }
             if (message.isEmpty() || message.isBlank()) {

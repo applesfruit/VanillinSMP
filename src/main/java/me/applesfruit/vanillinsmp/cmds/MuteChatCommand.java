@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class MuteChatCommand implements CommandExecutor {
@@ -22,7 +23,7 @@ public class MuteChatCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if ((!(sender instanceof Player) || (PlayerDataHandler.findData(((Player) sender).getPlayer())).getRank() == PlayerData.Ranks.ADMIN || PlayerDataHandler.findData(((Player) sender).getPlayer()).getRank() == PlayerData.Ranks.STAFF)) {
+        if (sender instanceof ConsoleCommandSender || (PlayerDataHandler.findData(((Player) sender).getPlayer()).getRank() == PlayerData.Ranks.ADMIN || PlayerDataHandler.findData(((Player) sender).getPlayer()).getRank() == PlayerData.Ranks.STAFF)) {
             Player p = (Player) sender;
             if (chat) {
                 Bukkit.broadcastMessage(TC.c("&8[&3!&8] &aChat has been enabled by " + p.getDisplayName()));
